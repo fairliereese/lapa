@@ -29,7 +29,7 @@ class _GenomicRegions:
         else:
             raise ValueError('invalid gtf_file argument')
 
-        assert annotated_feature_site in self.gr.Feature.unique(), \
+        assert (annotated_feature_site in self.gr.Feature.unique()) or ('UTR' not in self.gr.Feature.unique()), \
             f'{annotated_feature_site} not in the gtf file. ' \
             'If you gtf file dont have five_prime_utr, three_prime_utr' \
             ' but just UTR run https://github.com/MuhammedHasan/gencode_utr_fix'
@@ -75,7 +75,7 @@ class _GenomicRegions:
         _tqdm_pandas_gr()
 
         # if gene_id defined overlap
-        _core_columns = ['Chromosome', 'Start', 'End', 'Strand']        
+        _core_columns = ['Chromosome', 'Start', 'End', 'Strand']
         df = df.groupby(_core_columns, observed=True) \
                .progress_apply(self._agg_annotation_gene) \
                .reset_index(drop=True)
@@ -127,7 +127,7 @@ class PolyAGenomicRegions(_GenomicRegions):
 
     Examples:
       Annotation of poly(A) in pyranges format:
-      
+
       >>> regions = PolyAGenomicRegions('hg38.gtf')
       >>> gr
       +--------------+-----------+-----------+--------------+--------------+
@@ -165,7 +165,7 @@ class PolyAGenomicRegions(_GenomicRegions):
 
 
 class TssGenomicRegions(_GenomicRegions):
- 
+
     '''
     Annotate tss sites based on the genomics features.
 
@@ -174,7 +174,7 @@ class TssGenomicRegions(_GenomicRegions):
 
     Examples:
       Annotation of tss in pyranges format:
-      
+
       >>> regions = TssGenomicRegions('hg38.gtf')
       >>> gr
       +--------------+-----------+-----------+--------------+--------------+
