@@ -50,7 +50,9 @@ class _GenomicRegions:
             gr_introns = self.gr.features.introns()
             df = pd.concat([df, gr_introns.df])
 
-        _core_columns = ['Chromosome', 'Start', 'End', 'Strand']
+        if 'gene_name' not in df.columns:
+            df['gene_name'] = df['gene_id']
+        _core_columns = ['Chromosome', 'Start', 'End', 'Strand']    
         df = df[[*_core_columns, 'Feature', 'gene_id', 'gene_name']]
 
         df['annotated_site'] = self.annotated_site(df)
