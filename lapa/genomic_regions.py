@@ -23,7 +23,7 @@ class _GenomicRegions:
 
     def __init__(self, gtf_file, feature_order, annotated_feature_site):
         if isinstance(gtf_file, str):
-            self.gr = pr.read_gtf(gtf_file)
+            self.gr = pr.read_gtf(gtf_file, rename_attr=True)
         elif isinstance(gtf_file, pr.PyRanges):
             self.gr = gtf_file
         else:
@@ -52,7 +52,7 @@ class _GenomicRegions:
 
         if 'gene_name' not in df.columns:
             df['gene_name'] = df['gene_id']
-        _core_columns = ['Chromosome', 'Start', 'End', 'Strand']    
+        _core_columns = ['Chromosome', 'Start', 'End', 'Strand']
         df = df[[*_core_columns, 'Feature', 'gene_id', 'gene_name']]
 
         df['annotated_site'] = self.annotated_site(df)

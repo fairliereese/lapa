@@ -10,7 +10,7 @@ class Transcript:
 
     Args:
       transcript_id: transcript id
-      df: Transcript and subfeatures as data.frame. 
+      df: Transcript and subfeatures as data.frame.
         Enteries of gtf file related with the transcript.
       min_exon_len: Minimum exon length
     '''
@@ -46,7 +46,7 @@ class Transcript:
     def three_prime_exon_idx(self):
         '''
         Most three prime exon of transcript
-        '''        
+        '''
         if self.strand == '+':
             return self.last_exon_idx
         elif self.strand == '-':
@@ -70,11 +70,11 @@ class Transcript:
     def valid_five_prime_exon_len(self, tss_site: int):
         '''
         Checks new proposed tss_site is valid for most five
-        prime exon of transcript based on coordinates and 
+        prime exon of transcript based on coordinates and
         minimum exon length.
 
         Args:
-          tss_site: Position of proposed tss site 
+          tss_site: Position of proposed tss site
         '''
         exon_idx = self.five_prime_exon_idx
 
@@ -87,8 +87,8 @@ class Transcript:
 
     def valid_three_prime_exon_len(self, polyA_site):
         '''
-        Checks new proposed polyA_site is valid for most three 
-        prime exon of transcript based on coordinates and 
+        Checks new proposed polyA_site is valid for most three
+        prime exon of transcript based on coordinates and
         minimum exon length.
 
         Args:
@@ -108,7 +108,7 @@ class Transcript:
         Updates tss site of transcript and most five prime exons.
 
         Args:
-          tss_site: Position of proposed tss site.        
+          tss_site: Position of proposed tss site.
         '''
         exon_idx = self.five_prime_exon_idx
 
@@ -132,7 +132,7 @@ class Transcript:
 
         Args:
           polyA_site: Position of proposed poly(A) site.
-        '''        
+        '''
         exon_idx = self.three_prime_exon_idx
 
         if not self.valid_three_prime_exon_len(polyA_site):
@@ -161,7 +161,7 @@ class TranscriptModifier:
     '''
 
     def __init__(self, templete_gtf, min_exon_len=25):
-        self.gtf = pr.read_gtf(templete_gtf).df
+        self.gtf = pr.read_gtf(templete_gtf, rename_attr=True).df
         self.min_exon_len = min_exon_len
 
         _groups = self.gtf[~self.gtf.transcript_id.isna()].groupby(
@@ -193,7 +193,7 @@ class TranscriptModifier:
     def add_transcript(self, transcript):
         '''
         Add new trascript isoform to modifier.
-        '''        
+        '''
         self.transcripts[transcript.transcript_id] = transcript.df
 
         if transcript.gene_id not in self.genes:
@@ -381,7 +381,7 @@ def correct_talon(links_path, read_annot_path, gtf_input,
     on the linking reads and using splice chain of TALON.
 
     Args:
-      links_path: Path to linking read file generated 
+      links_path: Path to linking read file generated
         with `lapa_link_tss_to_tes` command.
 
       read_annot_path: read_annot of TALON annotating read
@@ -393,7 +393,7 @@ def correct_talon(links_path, read_annot_path, gtf_input,
         abundance of each transcript.
       abundance_output: Update abundance file which calculated
         based on abundance of linking reads.
-      link_threshold: Minimum number of linking reads to create 
+      link_threshold: Minimum number of linking reads to create
         transcript isoform.
       keep_unsupported: Keep transcripts without tss and tes support in
         the original gtf. If true transcript created with

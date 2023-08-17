@@ -8,7 +8,7 @@ def get_tes_from_gtf(gtf):
     Args:
       gtf: Path to gtf file.
     '''
-    gr_gtf = pr.read_gtf(gtf)
+    gr_gtf = pr.read_gtf(gtf, rename_attr=True)
 
     df_tes = gr_gtf.features.tes().df[[
         'Chromosome', 'Start', 'End', 'Strand', 'gene_id', 'gene_type'
@@ -24,7 +24,7 @@ def get_tss_from_gtf(gtf):
     Args:
       gtf: Path to gtf file.
     '''
-    gr_gtf = pr.read_gtf(gtf)
+    gr_gtf = pr.read_gtf(gtf, rename_attr=True)
 
     df_tss = gr_gtf.features.tss().df[[
         'Chromosome', 'Start', 'End', 'Strand', 'gene_id', 'gene_type'
